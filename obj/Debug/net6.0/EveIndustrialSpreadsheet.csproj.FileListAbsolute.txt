@@ -1,0 +1,15 @@
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\bin\Debug\net6.0\EveIndustrialSpreadsheet.exe
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\bin\Debug\net6.0\EveIndustrialSpreadsheet.deps.json
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\bin\Debug\net6.0\EveIndustrialSpreadsheet.runtimeconfig.json
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\bin\Debug\net6.0\EveIndustrialSpreadsheet.dll
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\bin\Debug\net6.0\EveIndustrialSpreadsheet.pdb
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\obj\Debug\net6.0\EveIndustrialSpreadsheet.csproj.AssemblyReference.cache
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\obj\Debug\net6.0\EveIndustrialSpreadsheet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\obj\Debug\net6.0\EveIndustrialSpreadsheet.AssemblyInfoInputs.cache
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\obj\Debug\net6.0\EveIndustrialSpreadsheet.AssemblyInfo.cs
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\obj\Debug\net6.0\EveIndustrialSpreadsheet.csproj.CoreCompileInputs.cache
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\obj\Debug\net6.0\EveIndustrialSpreadsheet.dll
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\obj\Debug\net6.0\refint\EveIndustrialSpreadsheet.dll
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\obj\Debug\net6.0\EveIndustrialSpreadsheet.pdb
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\obj\Debug\net6.0\EveIndustrialSpreadsheet.genruntimeconfig.cache
+C:\Programming Projects\C#\EveIndustrialSpreadsheet\obj\Debug\net6.0\ref\EveIndustrialSpreadsheet.dll
