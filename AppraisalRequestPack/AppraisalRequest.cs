@@ -7,27 +7,34 @@ using System.Linq;
 
 namespace EveIndustrialSpreadsheet.AppraisalRequestPack {
     [Serializable()]
-    class AppraisalRequest {
-        public string market_name { get; set; }
+    struct AppraisalRequest {
+        public Market? market_name { get; set; }
         public List<AppraisalRequestItem> items { get; set; }
             
         public AppraisalRequest() {
-            market_name = "";
+            market_name = null;
             items = new List<AppraisalRequestItem>();
         }
 
         public AppraisalRequest(Market market, List<AppraisalRequestItem> items) {
-            this.market_name = market.ToString().ToLower();
+            this.market_name = market;
             this.items = items;
         }
 
         public AppraisalRequest(Market market, AppraisalRequestItem[] items) {
-            this.market_name = market.ToString().ToLower();
+            this.market_name = market;
             this.items = items.OfType<AppraisalRequestItem>().ToList();
         }
 
         public string toJson() {
-            return JsonSerializer.Serialize(this);
+            var options = new JsonSerializerOptions {
+                WriteIndented = true,
+                Converters =
+                    {
+                        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                    }
+            };
+            return JsonSerializer.Serialize(this, options);
         }
     }
 }

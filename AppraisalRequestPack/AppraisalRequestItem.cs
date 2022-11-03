@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace EveIndustrialSpreadsheet.AppraisalRequestPack {
     [Serializable()]
-    class AppraisalRequestItem {
+    struct AppraisalRequestItem {
         public string name { get; set; }
        // int type_id;
 
