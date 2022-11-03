@@ -12,12 +12,7 @@ using System.Text.Json.Serialization;
 // See https://aka.ms/new-console-template for more information
 
 
-await EvepraisalAPIManager.getAppraisal("coyaw");
 
-List<AppraisalRequestItem> appraisalRequestItems = new List<AppraisalRequestItem>();
-appraisalRequestItems.Add(new AppraisalRequestItem("Rifter"));
-AppraisalRequest appraisalRequest = new AppraisalRequest(Market.Amarr, appraisalRequestItems);
-await EvepraisalAPIManager.newAppraisal(appraisalRequest);
 
 /*
 List<AppraisalRequestItem> appraisalRequestItems = new List<AppraisalRequestItem>();
