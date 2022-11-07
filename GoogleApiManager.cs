@@ -15,11 +15,19 @@ using Newtonsoft.Json;
 
 namespace EveIndustrialSpreadsheet {
     internal class GoogleApiManager {
+        #region attributes
         // The service that will be used to interact with google sheets
         SheetsService service;
 
         // The ID of the desired spreadsheet
         string spreadsheetId = "12xbQMm4b2iFCjc1ABP4sVCog_7FL4FD6EyZkBN0PAqM";
+        #endregion
+
+        #region Constructors
+        public GoogleApiManager() {
+            authenticateApp().Wait();
+        }
+        #endregion
 
         /// <summary>
         /// Authenticates the app with OAuth2 with google using my client ID and Secret
@@ -74,6 +82,29 @@ namespace EveIndustrialSpreadsheet {
         }
 
         /// <summary>
+        /// Get the values from the spreadsheet directly.
+        /// </summary>
+        /// <param name="range">The range of values you want to get</param>
+        /// <returns>The values (Of type Bool, String, Double or Null)</returns>
+        public async Task<IList<IList<Object>>?> getValues(string range) {
+            var request = service.Spreadsheets.Values.Get(spreadsheetId, range);
+
+            var response = request.ExecuteAsync();
+            // The list of values in the results. This is a list of list of objects, these objects can be: Bool, String, Double
+            var values = response.Result.Values;
+            return values;
+        }
+
+        /// <summary>
+        /// Get the values from the spreadsheet directly as strings
+        /// </summary>
+        /// <param name="range">The range of values you want to get</param>
+        /// <returns>The values</returns>
+        public async Task<List<List<string>>?>  getValueStrings(string range) {
+            return valuesToStrings(await getValues(range));
+        }
+
+        /// <summary>
         /// A function to update the values in the spreadsheet.
         /// </summary>
         /// <param name="data">The new range/values pair to update in the spreadsheet</param>
@@ -104,5 +135,21 @@ namespace EveIndustrialSpreadsheet {
 
             return response;
         }
+
+        #region helper methods
+        private static List<List<string>>? valuesToStrings(IList<IList<Object>>? values) {
+            if(values == null) return null;
+            List<List<String>>? ret = new List<List<string>>();
+            for(int i = 0;i < values.Count;i++) {
+                IList<Object> row = values[i];
+                List<string> rowString = new List<string>();
+                for(int j = 0;j < row.Count;j++) {
+                    rowString.Add(row[j].ToString());
+                }
+                ret.Add(rowString);
+            }
+            return ret;
+        }
+        #endregion
     }
 }

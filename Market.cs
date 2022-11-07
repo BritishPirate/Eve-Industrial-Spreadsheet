@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EveIndustrialSpreadsheet.AppraisalRequestPack {
-    enum Market {
+namespace EveIndustrialSpreadsheet
+{
+    enum Market
+    {
         Jita,
         Perimeter,
         Universe,

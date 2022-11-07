@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using EveIndustrialSpreadsheet.AppraisalRequestPack;
 
 namespace EveIndustrialSpreadsheet.AppraisalPack
 {
@@ -107,13 +106,13 @@ namespace EveIndustrialSpreadsheet.AppraisalPack
             public struct AppraisalItem
             {
                 #region attributes
-                public string? name { get; set; }
-                public int? typeId { get; set; }
-                public string? typeName { get; set; }
-                public int? typeVolume { get; set; }
-                public int? quantity { get; set; }
-                public Prices? prices { get; set; }
-                public Meta? meta { get; set; }
+                public string name { get; set; }
+                public int typeId { get; set; }
+                public string typeName { get; set; }
+                public float typeVolume { get; set; }
+                public int quantity { get; set; }
+                public Prices prices { get; set; }
+                public Meta meta { get; set; }
                 #endregion
 
                 #region constructors
@@ -127,16 +126,6 @@ namespace EveIndustrialSpreadsheet.AppraisalPack
                     this.prices = prices;
                     this.meta = meta;
                 }
-                public AppraisalItem()
-                {
-                    name = null;
-                    typeId = null;
-                    typeName = null;
-                    typeVolume = null;
-                    quantity = null;
-                    prices = null;
-                    meta = null;
-                }
                 #endregion
 
                 #region internal classes
@@ -144,22 +133,14 @@ namespace EveIndustrialSpreadsheet.AppraisalPack
                 public struct Prices
                 {
                     #region attributes
-                    public PriceStats? all { get; set; }
-                    public PriceStats? buy { get; set; }
-                    public PriceStats? sell { get; set; }
-                    public DateTime? updated { get; set; }
-                    public string? strategy { get; set; }
+                    public PriceStats all { get; set; }
+                    public PriceStats buy { get; set; }
+                    public PriceStats sell { get; set; }
+                    public DateTime updated { get; set; }
+                    public string strategy { get; set; }
                     #endregion
-
+                    
                     #region constructors
-                    public Prices()
-                    {
-                        all = null;
-                        buy = null;
-                        sell = null;
-                        updated = null;
-                        strategy = null;
-                    }
 
                     public Prices(PriceStats all, PriceStats buy, PriceStats sell, DateTime updated, string strategy)
                     {
@@ -176,28 +157,17 @@ namespace EveIndustrialSpreadsheet.AppraisalPack
                     public struct PriceStats
                     {
                         #region attributes
-                        public float? avg { get; set; }
-                        public float? max { get; set; }
-                        public float? median { get; set; }
-                        public float? min { get; set; }
-                        public float? percentile { get; set; }
-                        public float? stddev { get; set; }
-                        public int? volume { get; set; }
-                        public int? orderCount { get; set; }
+                        public float avg { get; set; }
+                        public float max { get; set; }
+                        public float median { get; set; }
+                        public float min { get; set; }
+                        public float percentile { get; set; }
+                        public float stddev { get; set; }
+                        public int volume { get; set; }
+                        public int orderCount { get; set; }
                         #endregion
 
                         #region constructors
-                        public PriceStats()
-                        {
-                            avg = null;
-                            max = null;
-                            median = null;
-                            min = null;
-                            percentile = null;
-                            stddev = null;
-                            volume = null;
-                            orderCount = null;
-                        }
 
                         public PriceStats(float avg, float max, float median, float min, float percentile, float stddev, int volume, int orderCount)
                         {
