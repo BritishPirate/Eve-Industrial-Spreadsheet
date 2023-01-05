@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.IO;
 using System.Threading.Tasks;
 using EveIndustrialSpreadsheet;
-using static EveIndustrialSpreadsheet.AppraisalRequestPack.AppraisalRequest;
+using static EveIndustrialSpreadsheet.AppraisalRequestPack.EvepraisalRequest;
 using EveIndustrialSpreadsheet.AppraisalRequestPack;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -20,8 +20,9 @@ using Microsoft.Win32.SafeHandles;
 using Google.Apis.Sheets.v4.Data;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
-using static EveIndustrialSpreadsheet.AppraisalPack.AppraisalRoot;
+using static EveIndustrialSpreadsheet.AppraisalPack.EvepraisalRoot;
 using EveIndustrialSpreadsheet.AppraisalPack;
+using System.Linq;
 
 internal class Program {
     private static SpreadSheetManager spreadsheetManager;
@@ -36,18 +37,54 @@ internal class Program {
         }
 
 
-        string itemName = spreadsheetManager.getColumn("main", 'A').Result[0];
-        Appraisal appraisal = await newAppraisal(itemName);
-        string amarrBuy = appraisal.items[0].prices.buy.max.ToString();
-        await spreadsheetManager.updatePriceDetails(appraisal, "main", "B1:D1");
+        await appraiseSheet();
     }
 
-    private async static Task<Appraisal> newAppraisal(string itemName) {
-        List<AppraisalRequestItem> appraisalRequestItems = new List<AppraisalRequestItem>();
-        appraisalRequestItems.Add(new AppraisalRequestItem(itemName));
-        AppraisalRequest appraisalRequest = new AppraisalRequest(Market.Amarr, appraisalRequestItems);
+    private async static Task appraiseSheet() {
+        //Get values from spreadhseet
+        var itemNames = await spreadsheetManager.getColumn("main", 'A');
+        var temp = await spreadsheetManager.getColumn("main", 'B');
+        temp.RemoveAt(0); // Remove the first thing for titles
+        var itemQuantities = temp.Select(int.Parse).ToList();
+        itemNames.RemoveAt(0); // Remove the first thing for titles
+        
+        
+
+        //Get appraisal from evepraisal
+        var appraisalRequest = new EvepraisalRequest(Market.Amarr, itemNames, itemQuantities);
+        string appraisalJson = await EvepraisalAPIManager.newAppraisal(appraisalRequest);
+        Appraisal appraisal = EvepraisalRoot.fromJson(appraisalJson);
+
+        //Re-sort Evepraisal's auto sorter >,>
+        appraisal = fixEvepraisal((Evepraisal)appraisal, appraisalRequest);
+
+        // Update the sheet
+        int start = 2;
+        await spreadsheetManager.updatePriceDetails(appraisal, "main", "C" + start + ":F" + (start + appraisal.prices().Count - 1));
+    }
+
+    private async static Task<Evepraisal> newAppraisal(string itemName) {
+        List<EvepraisalRequestItem> appraisalRequestItems = new List<EvepraisalRequestItem>();
+        appraisalRequestItems.Add(new EvepraisalRequestItem(itemName));
+        EvepraisalRequest appraisalRequest = new EvepraisalRequest(Market.Amarr, appraisalRequestItems);
         string newReturn = await EvepraisalAPIManager.newAppraisal(appraisalRequest);
-        return AppraisalRoot.fromJson(newReturn);
+        return EvepraisalRoot.fromJson(newReturn);
+    }
+
+    private static Appraisal fixEvepraisal(Evepraisal appraisal, EvepraisalRequest request) {
+        var ogOrder = request.items;
+        var appraisedList = appraisal.items;
+        List<Evepraisal.AppraisalItem> newList = new List<Evepraisal.AppraisalItem>();
+        foreach(var item in ogOrder) {
+            foreach(var appraisedItem in appraisedList) {
+                if(appraisedItem.typeName == item.name && appraisedItem.quantity == item.quantity) {
+                    newList.Add(appraisedItem);
+                    break;
+                }
+            }
+        }
+        appraisal.items = newList;
+        return appraisal;
     }
 
     /*
@@ -88,9 +125,9 @@ internal class Program {
     string getReturn = await EvepraisalAPIManager.getAppraisal("coyaw");
     Console.WriteLine(getReturn);
 
-    List<AppraisalRequestItem> appraisalRequestItems = new List<AppraisalRequestItem>();
-    appraisalRequestItems.Add(new AppraisalRequestItem("Rifter"));
-    AppraisalRequest appraisalRequest = new AppraisalRequest(Market.Amarr, appraisalRequestItems);
+    List<EvepraisalRequestItem> appraisalRequestItems = new List<EvepraisalRequestItem>();
+    appraisalRequestItems.Add(new EvepraisalRequestItem("Rifter"));
+    EvepraisalRequest appraisalRequest = new EvepraisalRequest(Market.Amarr, appraisalRequestItems);
     string newReturn = await EvepraisalAPIManager.newAppraisal(appraisalRequest);
     Console.WriteLine(newReturn);
 

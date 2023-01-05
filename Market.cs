@@ -4,8 +4,7 @@ using System.Text;
 
 namespace EveIndustrialSpreadsheet
 {
-    enum Market
-    {
+    enum Market {
         Jita,
         Perimeter,
         Universe,

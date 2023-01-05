@@ -28,7 +28,7 @@ namespace EveIndustrialSpreadsheet {
         }
 
 
-        public static async Task<string> newAppraisal(AppraisalRequest ar, bool persist = false) {
+        public static async Task<string> newAppraisal(EvepraisalRequest ar, bool persist = false) {
             // Set the URL and create the HTTP client (Persist is used to determine if the requests needs to stay existing)
             string url = "https://evepraisal.com/appraisal/structured.json" + "?persist=" + (persist ? "yes" : "no");
             using HttpClient client = createClient();
